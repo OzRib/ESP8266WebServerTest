@@ -3,8 +3,8 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 
-#define ssid "*************"
-#define psswd "*************"
+#define ssid "ESP8266"
+#define psswd "your-password"
 #define led LED_BUILTIN
 
 ESP8266WebServer server(80);
@@ -27,7 +27,7 @@ void handleRoot(){
   html, body{background:rgb(80,80,80);display:flex;justify-content:center;}\n\
   #container{align-self:center;justify-content:center;display:flex;height:80vh;width:70vw;border:solid black 1px;border-radius:40px;background:rgb(110,170,255);}\n\
   .button{margin-top:1rem;height:5%;min-width:40%; border:solid black 1px; border-radius:20px;}\n\
-  #b1{background:rgb(250,250,250);color='white'}\n\
+  #b1{background:rgb(20,20,20);color:white;}\n\
   </style>\n\
   </head>\n\
   <body><div id='container'>\n\
@@ -74,20 +74,13 @@ void setup() {
   pinMode(led, OUTPUT);
   digitalWrite(led, LOW);
   Serial.begin(115200);
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, psswd);
-  Serial.println();
-  while(WiFi.status() != WL_CONNECTED){
-    Serial.print('.');
-    delay(400);
-  }
-  Serial.println();
-  Serial.print(F("Conectado a: "));
+  WiFi.softAP(ssid, psswd);
+  Serial.print(F("SSID: "));
   Serial.println(ssid);
-  server.begin();
-  Serial.println(F("Servidor iniciado"));
   Serial.print(F("Endereço IP: "));
   Serial.println(WiFi.localIP());
+  server.begin();
+  Serial.println(F("Servidor iniciado"));
   if(MDNS.begin("esp8266")){
     Serial.println(F("MDNS responder iniciado"));  
   }
